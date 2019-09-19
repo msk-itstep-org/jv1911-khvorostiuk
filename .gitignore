@@ -1,0 +1,10 @@
+/*.iml
+/*.ipr
+/*.iws
+/.DS_Store
+/.idea
+!/.mvn/wrapper/maven-wrapper.jar
+!/src/main/**
+/src/main/resources/local.properties
+!/src/test/**
+/target/
