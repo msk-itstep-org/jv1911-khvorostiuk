@@ -1,5 +1,7 @@
 package org.itstep.msk.app.entity;
 
+import org.itstep.msk.app.entity.enums.Catalog;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,7 +10,7 @@ public class Good {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column
     private String name;
@@ -16,7 +18,30 @@ public class Good {
     @Column
     private Double price;
 
-    public Long getId() {
+    @Column
+    private String manufacturer;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Catalog catalog;
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public Integer getId() {
         return id;
     }
 
