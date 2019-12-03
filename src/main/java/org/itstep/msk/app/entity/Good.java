@@ -8,15 +8,27 @@ public class Good {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column
     private String name;
 
     @Column
-    private Double price;
+    private Integer price;
 
-    public Long getId() {
+    @Column(unique = true)
+    private String manufacturer;
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+
+    public Integer getId() {
         return id;
     }
 
@@ -28,11 +40,11 @@ public class Good {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }
