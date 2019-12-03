@@ -5,7 +5,7 @@
     <title>Категории</title>
 </head>
 <body>
-<section class="list" th:include="@{/category.html} :: category"
+<section th:include="@{/category.html} :: category"
          th:with="categories = ${root}"
 ></section>
 <script

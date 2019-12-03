@@ -14,9 +14,9 @@ public class Good {
     private String name;
 
     @Column
-    private Double price;
+    private Integer price;
 
-    @Column
+    @Column(unique = true)
     private String manufacturer;
 
     public String getManufacturer() {
@@ -40,11 +40,11 @@ public class Good {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }
