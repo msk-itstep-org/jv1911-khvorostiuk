@@ -14,6 +14,9 @@ public class Category {
     @Column(length = 100)
     private String name;
 
+    @Column
+    private String image;
+
     @ManyToOne(targetEntity = Category.class)
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Category parent;
@@ -47,5 +50,13 @@ public class Category {
 
     public void setChildren(Set<Category> children) {
         this.children = children;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
