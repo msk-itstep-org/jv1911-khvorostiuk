@@ -1,11 +1,11 @@
 <section th:fragment="category" xmlns:th="http://www.w3.org/1999/xhtml">
-    <ul>
-        <li th:each="category : ${categories}">
-            <img th:src="${category.image}" style="height: 48px"/>
-            <span th:text="${category.name}"></span>
-            <section th:include="@{/category.html} :: category"
-                     th:with="categories = ${category.children}"
-            ></section>
-        </li>
-    </ul>
+<ul>
+    <li th:each="category : ${categories}">
+        <img th:src="${category.image}" style="height: 48px"/>
+        <span th:text="${category.name}"></span>
+        <section th:include="@{/category.html} :: category"
+                 th:with="categories = ${category.children}"
+        ></section>
+    </li>
+</ul>
 </section>

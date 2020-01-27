@@ -1,6 +1,7 @@
 package org.itstep.msk.app.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +23,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(targetEntity = Category.class, mappedBy = "parent")
-    private Set<Category> children;
+    private List<Category> children;
 
     public Integer getId() {
         return id;
@@ -44,11 +45,11 @@ public class Category {
         this.parent = parent;
     }
 
-    public Set<Category> getChildren() {
+    public List<Category> getChildren() {
         return children;
     }
 
-    public void setChildren(Set<Category> children) {
+    public void setChildren(List<Category> children) {
         this.children = children;
     }
 
