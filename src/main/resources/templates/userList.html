@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+</head>
+<body>
+<h1>Список пользователей</h1>
+
+<p th:each="userIterator : ${users}">
+    <span th:href="@{/redactor}" th:text="${userIterator.username}"></span>
+</p>
+
+<h3 class="text-center">
+    <a th:if="${pagination.pageNumber} > 0"
+       th:href="@{/history(page=${pagination.pageNumber}-1), size=${pagination.pageSize}}">&laquo;</a>
+    <span th:text="${pagination.pageNumber} + 1"></span> /
+    <span th:text="${pages}"></span>
+    <a th:if="${pagination.pageNumber} < ${pages} - 1"
+       th:href="@{/history(page=${pagination.pageNumber} + 1,size=${pagination.pageSize})}">&raquo;</a>
+    <a style="margin-left:25px" th:href="@{/}" target="_blank">Вернуться</a>
+</h3>
+
+</body>
+</html>

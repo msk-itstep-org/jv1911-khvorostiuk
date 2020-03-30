@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+<h1>Регистрация</h1>
+<form action="/registration" method="post">
+    <span th:if="${sameUser}" style="color:red;text-width:bold">Такой пользователь уже существует!</span>
+    <br/>
+    <p>
+        Логин:
+        <input type="text" name="username"/>
+    </p>
+    <p>
+        Email:
+        <input type="email" name="email"/>
+    </p>
+    <p>
+        Пароль:
+        <input type="password" name="password"/>
+    </p>
+    <p>
+        <button type="submit">Зарегистрироваться</button>
+    </p>
+</form>
+</body>
+</html>
