@@ -5,13 +5,13 @@ import org.itstep.msk.app.enums.Role;
 import org.itstep.msk.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.stream.IntStream;
 
 @Controller
@@ -24,10 +24,10 @@ public class UserController {
     @GetMapping
     public String userList(Model model, @PageableDefault(value = 100, sort = "username") Pageable pageable) {
 
-        Page<User> users = userRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+        Page<User> users = userRepository.findAll(pageable);
 
         model.addAttribute("users", users.getContent());
-        model.addAttribute("page", pageable.getNumberOfPages());
+        model.addAttribute("page", pageable.getPageNumber());
         model.addAttribute("pages", users.getTotalPages());
         model.addAttribute("pagesRange", IntStream.range(0, users.getTotalPages()).toArray());
 

@@ -4,6 +4,7 @@ import org.itstep.msk.app.enums.Role;
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.repository.UserRepository;
 import org.itstep.msk.app.service.MyMailSender;
+import org.itstep.msk.app.service.impl.MyMailSenderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -40,7 +43,7 @@ public class SecurityController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute User user, Principal principal) {
+    public String addUser(@ModelAttribute User user, Principal principal) throws Exception {
         if (principal != null) {
             return "redirect:/";
         }
@@ -59,13 +62,21 @@ public class SecurityController {
         userRepository.flush();
 
         if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format("Приветствую, %s \n" + "Добро пожаловать!" +
-                            " Для завершения регистрации перейди по ссылке: http://localhost:9999/activate/%s",
-                    user.getUsername(),
+            String link = String.format(
+                    "http://localhost:9999/activate/%s",
                     user.getActivationCode()
             );
 
-            mailSender.send(user.getEmail(), "Код активации", message);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("username", user.getUsername());
+            parameters.put("confirmLink", link);
+            mailSender.send(
+                    user.getEmail(),
+                    "Подтверждение регистрации",
+                    "registration_confirm.html",
+                    parameters
+            );
+
         }
 
         return "redirect:/login";
@@ -73,10 +84,10 @@ public class SecurityController {
 
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
-        if (activateUser(code)){
-            model.addAttribute("message","Регистрация подстверждена");
+        if (activateUser(code)) {
+            model.addAttribute("message", "Регистрация подстверждена");
         } else {
-            model.addAttribute("message","Код подтверждения не найден!");
+            model.addAttribute("message", "Код подтверждения не найден!");
         }
 
         return "login";

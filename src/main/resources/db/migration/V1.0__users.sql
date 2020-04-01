@@ -28,6 +28,3 @@ insert into user_roles(user_id, role)
 select id, "ROLE_ADMIN"
 from users
 where username = "admin";
-
-
-
