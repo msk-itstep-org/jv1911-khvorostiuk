@@ -1,6 +1,11 @@
 package org.itstep.msk.app.entity;
 
+import org.itstep.msk.app.enums.Role;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -8,18 +13,33 @@ public class User {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column
     private String password;
 
     @Column
-    private String phone;
+    private String avatar;
 
-    public Integer getId() {
+    @Column
+    private boolean active;
+
+    @Column
+    private String email;
+
+    @Column(name = "activation_code")
+    private String activationCode;
+
+    @ElementCollection(targetClass = Role.class)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
+
+    public Long getId() {
         return id;
     }
 
@@ -39,11 +59,50 @@ public class User {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public Set<String> getStringRoles() {
+        return roles.stream().map(Enum::toString).collect(Collectors.toSet());
+    }
+
+    public void setStringRoles(Set<String> stringRoles) {
+        roles.clear();
+        for (String stringRole : stringRoles) {
+            roles.add(Role.valueOf(stringRole));
+        }
     }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход на сайт</title>
+</head>
+<body>
+<h1>Вход на сайт</h1>
+<form action="/login" method="post">
+    <span th:if="${error}" style="color:red;text-width:bold">Неверный логин или пароль!</span>
+    <br/>
+    <p>
+        Логин:
+        <input type="text" name="username"/>
+    </p>
+    <p>
+        Пароль:
+        <input type="password" name="password"/>
+    </p>
+    <p>
+        <button type="submit">Войти</button>
+    </p>
+</form>
+</body>
+</html>

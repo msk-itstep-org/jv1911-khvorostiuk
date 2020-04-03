@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>[В]тесноте</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<h1 class="text-center">Добро пожаловать в социальную сеть [В]тесноте!</h1>
+<form class="text-center" style="margin-top:50px">
+    <span sec:authorize="!isAuthenticated()">
+        <a style="margin-left: 15px" type="submit" class="btn btn-success" th:href="@{/login}">Войти</a>
+
+        <a style="margin-left: 15px" type="button" class="btn btn-warning"
+                th:href="@{/registration}">Регистрация</a>
+
+</span>
+
+    <a style="margin-left: 15px" type="submit" class="btn btn-success" sec:authorize="isAuthenticated()"
+       th:href="@{/logout}">Выйти</a>
+
+    <a style="margin-left: 15px" type="submit" class="btn btn-success" sec:authorize="hasRole('ROLE_ADMIN')"
+       th:href="@{/user}">Список пользователей</a>
+
+</form>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
