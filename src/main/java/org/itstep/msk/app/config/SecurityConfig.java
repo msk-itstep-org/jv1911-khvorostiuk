@@ -23,6 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers("/css/**")
+                .antMatchers("/js/**")
+                .antMatchers("/images/**");
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         String usersQuery = "SELECT username, password, active FROM users WHERE username = ?";
         String authoritiesQuery =
@@ -63,13 +71,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling()
                 .accessDeniedPage("/denied");
     }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/css/**")
-                .antMatchers("/js/**")
-                .antMatchers("/images/**");
-    }
-
 }

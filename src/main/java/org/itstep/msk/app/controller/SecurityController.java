@@ -1,10 +1,9 @@
 package org.itstep.msk.app.controller;
 
-import org.itstep.msk.app.enums.Role;
 import org.itstep.msk.app.entity.User;
+import org.itstep.msk.app.enums.Role;
 import org.itstep.msk.app.repository.UserRepository;
 import org.itstep.msk.app.service.MyMailSender;
-import org.itstep.msk.app.service.impl.MyMailSenderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,11 @@ public class SecurityController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String login(@RequestParam(defaultValue = "false") String error, Model model) {
+    public String login(@RequestParam(defaultValue = "false") String error, Model model, Principal principal) {
+        if (principal != null) {
+            return "redirect:/";
+        }
+
         model.addAttribute("error", error.equalsIgnoreCase("true"));
         return "login";
     }
@@ -37,7 +40,6 @@ public class SecurityController {
     @GetMapping("/registration")
     public String reg(@RequestParam(defaultValue = "false") String sameUser, Model model) {
         model.addAttribute("sameUser", sameUser.equalsIgnoreCase("true"));
-
 
         return "registration";
     }
@@ -76,7 +78,6 @@ public class SecurityController {
                     "registration_confirm.html",
                     parameters
             );
-
         }
 
         return "redirect:/login";
@@ -107,5 +108,4 @@ public class SecurityController {
 
         return true;
     }
-
 }

@@ -17,7 +17,6 @@ public class MyMailSenderImpl implements MyMailSender {
     private TemplateEngine templateEngine;
     private JavaMailSender mailSender;
 
-
     @Autowired
     public MyMailSenderImpl(TemplateEngine templateEngine, JavaMailSender mailSender) {
         this.templateEngine = templateEngine;
@@ -47,7 +46,7 @@ public class MyMailSenderImpl implements MyMailSender {
         helper.setFrom(username);
         helper.setTo(emailTo);
         helper.setSubject(subject);
-        helper.setText(html,true);
+        helper.setText(html, true);
 
         mailSender.send(mailMessage);
     }
