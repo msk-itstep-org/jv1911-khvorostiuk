@@ -9,3 +9,4 @@ db_password=
 db_show_sql=true
 mail_name=
 mail_password=
+upload_path=
