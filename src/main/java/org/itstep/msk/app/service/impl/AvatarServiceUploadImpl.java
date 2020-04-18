@@ -10,13 +10,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Set;
 
 @Service
-public class AvatarServiceImpl extends AbstractUploadService<Avatar> {
+public class AvatarServiceUploadImpl extends AbstractUploadService<Avatar> {
     final private String[] CONTENT_TYPES = {"image/png", "image/jpeg"};
     private AvatarRepository avatarRepository;
 
-    public AvatarServiceImpl(@Autowired AvatarRepository avatarRepository, @Value("${upload.path}") String uploadsPath) {
+    public AvatarServiceUploadImpl(@Autowired AvatarRepository avatarRepository,
+                                   @Value("${upload.path}") String uploadsPath) {
         super(uploadsPath);
         this.avatarRepository = avatarRepository;
     }
@@ -51,4 +53,5 @@ public class AvatarServiceImpl extends AbstractUploadService<Avatar> {
         avatarRepository.delete(avatar);
         avatarRepository.flush();
     }
+
 }

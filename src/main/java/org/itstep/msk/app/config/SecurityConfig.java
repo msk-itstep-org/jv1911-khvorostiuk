@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/registration", "/activate/*").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
                 .antMatchers("/profile").authenticated()
+                .antMatchers("/audioList").authenticated()
                 .anyRequest().permitAll();
 
         http.csrf().disable();

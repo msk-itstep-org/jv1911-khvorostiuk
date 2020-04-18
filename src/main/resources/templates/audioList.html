@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/audioList" method="get" class="form-inline">
+    <div class="form-group mb-2">
+        <input type="text" class="form-control" name="name" placeholder="Поиск музыки">
+        <input type="submit" value="Search" class="btn-success">
+    </div>
+</form>
+<ul>
+    <li th:each="record : ${records}">
+        <span th:text="${record.originalFilename}"></span>
+        <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
+        <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
+        <form th:action="@{/deleteAudio/{id}(id=${record.id})}" method="post" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-success">Remove</button>
+        </form>
+    </li>
+</ul>
+</div>
+<audio id="sound" preload="auto" controls></audio>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/sound.js}"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import org.itstep.msk.app.entity.Upload;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 
 public interface UploadService<T extends Upload> {
@@ -12,4 +13,5 @@ public interface UploadService<T extends Upload> {
     void remove(T upload) throws Exception;
 
     Path getAbsolutePath(T upload);
+
 }

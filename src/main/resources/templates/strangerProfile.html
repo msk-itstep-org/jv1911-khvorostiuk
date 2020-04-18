@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.username}"></title>
+</head>
+<br>
+<br>
+<h2>Аватар</h2>
+<img th:if="${user.avatar != null}" th:src="@{/uploads/avatar/{id}(id=${user.avatar.id})}" class="img-thumbnail"
+     style="height:200px"/>
+<ul>
+    <li th:each="record : ${user.audioRecords}">
+        <span th:text="${record.originalFilename}"></span>
+        <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
+        <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
+        <form th:action="@{/deleteAudio/{id}(id=${record.id})}" method="post" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-success">Remove</button>
+        </form>
+    </li>
+</ul>
+<audio id="sound" preload="auto" controls></audio>
+
+</br>
+
+<div th:if="${!currentUser.equals(user)}"><!-- Не текущий юзер -->
+    <p id="js-friend-status" th:text="${friendStatus}"></p>
+    <div th:if="${!currentUser.friends.contains(user)}"><!-- Я не подписан на юзера -->
+        <div th:if="${!user.friends.contains(currentUser)}"><!-- Юзер не подписан на меня -->
+            <a id="js-add-friend" th:href="@{/addFriend/{id}(id=${user.id})}">Добавить друга</a>
+        </div>
+        <div th:if="${user.friends.contains(currentUser)}"><!-- Юзер подписан на меня -->
+            <a id="js-add-friend" th:href="@{/addFriend/{id}(id=${user.id})}">Добавить друга</a>
+        </div>
+    </div>
+    <div th:if="${currentUser.friends.contains(user)}"><!-- Я подписан на юзера -->
+        <div th:if="${!user.friends.contains(currentUser)}"><!-- Юзер не подписан на меня -->
+            <a id="js-delete-friend" th:href="@{/deleteFriend/{id}(id=${user.id})}">Отписаться</a>
+        </div>
+        <div th:if="${user.friends.contains(currentUser)}"><!-- Юзер подписан на меня -->
+            <a id="js-delete-friend" th:href="@{/deleteFriend/{id}(id=${user.id})}">Убрать из друзей</a>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/friend_request.js}"></script>
+<script th:src="@{/js/sound.js}"></script>
+</body>
+</html>

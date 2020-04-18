@@ -38,13 +38,35 @@ public class User {
     @JoinTable(name = "user_records", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "audio_id")
     )
-    private  Set<AudioRecord> audioRecords = new HashSet<>();
+    private Set<AudioRecord> audioRecords = new HashSet<>();
 
     @ElementCollection(targetClass = Role.class)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private Set<User> friends = new HashSet<>();
+
+    @ManyToMany(mappedBy = "friends")
+    private Set<User> followers = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+
+        return this.getId().equals(((User) obj).getId());
+    }
 
     public Long getId() {
         return id;
@@ -119,5 +141,13 @@ public class User {
         for (String stringRole : stringRoles) {
             roles.add(Role.valueOf(stringRole));
         }
+    }
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
     }
 }
