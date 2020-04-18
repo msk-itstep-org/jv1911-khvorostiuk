@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш профиль</title>
+</head>
+<body>
+<br>
+<h2>Аватар</h2>
+<img th:if="${user.avatar != null}" th:src="@{/uploads/avatar/{id}(id=${user.avatar.id})}" class="img-thumbnail"
+     style="height:200px"/>
+<form th:action="@{/profile}" method="post" enctype="multipart/form-data"
+      class="mt-3 mb-5 pb-5">
+    <div class="form-group">
+        <span th:if="${error}" style="color:red;text-width:bold">Неверный формат файла!</span>
+        <input id="file" type="file" name="file" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-success">Загрузить</button>
+    </br>
+</form>
+</br>
+<form th:action="@{/audio}" method="post" enctype="multipart/form-data"
+      class="mt-3 mb-5 pb-5">
+    <div class="form-group">
+        <span th:if="${wrongExtension}" style="color:red;text-width:bold">Неверный формат файла!</span>
+        <input id="audio_file" type="file" name="audio_file" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-success">Загрузить</button>
+</form>
+<ul>
+    <li th:each="record : ${user.audioRecords}">
+        <span th:text="${record.originalFilename}"></span>
+        <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
+        <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
+        <form th:action="@{/deleteAudio/{id}(id=${record.id})}" method="post" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-success">Remove</button>
+        </form>
+    </li>
+</ul>
+<audio id="sound" preload="auto" controls></audio>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/sound.js}"></script>
+</body>
+</html>

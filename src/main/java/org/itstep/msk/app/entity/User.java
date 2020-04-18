@@ -22,9 +22,6 @@ public class User {
     private String password;
 
     @Column
-    private String avatar;
-
-    @Column
     private boolean active;
 
     @Column
@@ -32,6 +29,16 @@ public class User {
 
     @Column(name = "activation_code")
     private String activationCode;
+
+    @OneToOne(targetEntity = Avatar.class)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
+    private Avatar avatar;
+
+    @ManyToMany
+    @JoinTable(name = "user_records", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "audio_id")
+    )
+    private  Set<AudioRecord> audioRecords = new HashSet<>();
 
     @ElementCollection(targetClass = Role.class)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -71,14 +78,6 @@ public class User {
         return roles;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -97,6 +96,22 @@ public class User {
 
     public Set<String> getStringRoles() {
         return roles.stream().map(Enum::toString).collect(Collectors.toSet());
+    }
+
+    public Set<AudioRecord> getAudioRecords() {
+        return audioRecords;
+    }
+
+    public void setAudioRecords(Set<AudioRecord> audioRecord) {
+        this.audioRecords = audioRecord;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     public void setStringRoles(Set<String> stringRoles) {
