@@ -10,14 +10,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Set;
 
 @Service
-public class AudioRecordServiceImpl extends AbstractUploadService<AudioRecord> {
+public class AudioRecordUploadServiceImpl extends AbstractUploadService<AudioRecord> {
         final private String[] CONTENT_TYPES = {"audio/mp3", "audio/mp4"};
         private AudioRecordRepository audioRecordRepository;
 
-        public AudioRecordServiceImpl(@Autowired AudioRecordRepository audioRecordRepository,
-                                      @Value("${upload.path}") String uploadsPath) {
+        public AudioRecordUploadServiceImpl(@Autowired AudioRecordRepository audioRecordRepository,
+                                            @Value("${upload.path}") String uploadsPath) {
             super(uploadsPath);
             this.audioRecordRepository = audioRecordRepository;
         }
@@ -52,4 +53,5 @@ public class AudioRecordServiceImpl extends AbstractUploadService<AudioRecord> {
             audioRecordRepository.delete(audioRecord);
             audioRecordRepository.flush();
         }
+
 }

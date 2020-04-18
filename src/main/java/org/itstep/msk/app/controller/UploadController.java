@@ -3,8 +3,8 @@ package org.itstep.msk.app.controller;
 import org.itstep.msk.app.entity.AudioRecord;
 import org.itstep.msk.app.exceptions.HttpNotFoundException;
 import org.itstep.msk.app.entity.Avatar;
-import org.itstep.msk.app.service.impl.AudioRecordServiceImpl;
-import org.itstep.msk.app.service.impl.AvatarServiceImpl;
+import org.itstep.msk.app.service.impl.AudioRecordUploadServiceImpl;
+import org.itstep.msk.app.service.impl.AvatarServiceUploadImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,10 +21,10 @@ import java.net.MalformedURLException;
 @RequestMapping("/uploads")
 public class UploadController {
     @Autowired
-    private AvatarServiceImpl avatarService;
+    private AvatarServiceUploadImpl avatarService;
 
     @Autowired
-    private AudioRecordServiceImpl audioRecordService;
+    private AudioRecordUploadServiceImpl audioRecordService;
 
     @GetMapping("/avatar/{avatarId}")
     @ResponseBody

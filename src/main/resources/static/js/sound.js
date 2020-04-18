@@ -6,6 +6,6 @@ $(".play").click(function (event) {
     audio.play();
 });
 $(".pause").click(function (event) {
-    event.preventDefault();
-    audio.pause();
+        event.preventDefault();
+        audio.pause();
 });

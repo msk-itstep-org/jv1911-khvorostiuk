@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Ваш профиль</title>
@@ -9,6 +10,7 @@
 <h2>Аватар</h2>
 <img th:if="${user.avatar != null}" th:src="@{/uploads/avatar/{id}(id=${user.avatar.id})}" class="img-thumbnail"
      style="height:200px"/>
+
 <form th:action="@{/profile}" method="post" enctype="multipart/form-data"
       class="mt-3 mb-5 pb-5">
     <div class="form-group">
@@ -18,7 +20,9 @@
     <button type="submit" class="btn btn-success">Загрузить</button>
     </br>
 </form>
+
 </br>
+
 <form th:action="@{/audio}" method="post" enctype="multipart/form-data"
       class="mt-3 mb-5 pb-5">
     <div class="form-group">
@@ -27,14 +31,13 @@
     </div>
     <button type="submit" class="btn btn-success">Загрузить</button>
 </form>
+
 <ul>
     <li th:each="record : ${user.audioRecords}">
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <form th:action="@{/deleteAudio/{id}(id=${record.id})}" method="post" enctype="multipart/form-data">
-            <button type="submit" class="btn btn-success">Remove</button>
-        </form>
+        <a th:href="@{/deleteAudio/{id}(id=${record.id})}" class="btn-success">Remove</a>
     </li>
 </ul>
 <audio id="sound" preload="auto" controls></audio>

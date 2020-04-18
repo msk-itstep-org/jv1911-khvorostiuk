@@ -23,3 +23,9 @@ create table user_records
     user_id  bigint not null references users (id),
     audio_id bigint not null references audio_records (id)
 );
+
+create table user_friends
+(
+    user_id  bigint not null references users (id),
+    friend_id bigint not null references users (id)
+)
