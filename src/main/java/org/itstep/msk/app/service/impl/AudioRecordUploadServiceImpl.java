@@ -38,9 +38,6 @@ public class AudioRecordUploadServiceImpl extends AbstractUploadService<AudioRec
             audioRecord.setOriginalFilename(originalFileName);
             audioRecord.setContentType(file.getContentType());
 
-            audioRecordRepository.save(audioRecord);
-            audioRecordRepository.flush();
-
             return audioRecord;
         }
 

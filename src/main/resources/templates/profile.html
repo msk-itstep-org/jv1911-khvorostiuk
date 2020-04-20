@@ -28,6 +28,8 @@
     <div class="form-group">
         <span th:if="${wrongExtension}" style="color:red;text-width:bold">Неверный формат файла!</span>
         <input id="audio_file" type="file" name="audio_file" class="form-control"/>
+        <input id="audio_author" type="text" name="audio_author" class="form-control"/>
+        <input id="audio_name" type="text" name="audio_name" class="form-control"/>
     </div>
     <button type="submit" class="btn btn-success">Загрузить</button>
 </form>
