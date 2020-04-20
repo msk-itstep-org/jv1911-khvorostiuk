@@ -4,8 +4,7 @@ import org.itstep.msk.app.entity.AudioRecord;
 import org.itstep.msk.app.entity.Avatar;
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.exceptions.ForbiddenException;
-import org.itstep.msk.app.exceptions.UnsupportedContentTypeException;
-import org.itstep.msk.app.repository.AudioRecordRepository;
+import org.itstep.msk.app.exceptions.UnsupportedMediaTypeException;
 import org.itstep.msk.app.repository.UserRepository;
 import org.itstep.msk.app.service.FriendService;
 import org.itstep.msk.app.service.impl.AudioRecordSearchServiceImpl;
@@ -84,7 +83,7 @@ public class ProfileController {
                 avatarService.remove(oldAvatar);
             }
 
-        } catch (UnsupportedContentTypeException e) {
+        } catch (UnsupportedMediaTypeException e) {
             return "redirect:/profile?uploaderror=true";
         }
 
@@ -104,7 +103,7 @@ public class ProfileController {
             userRepository.save(user);
             userRepository.flush();
 
-        } catch (UnsupportedContentTypeException e) {
+        } catch (UnsupportedMediaTypeException e) {
             return "redirect:/profile?uploaderror=true";
         }
 

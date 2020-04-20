@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html th:replace="~{layout::layout(~{::title}, ~{::#content}, _, _)}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Вход</title>
+</head>
+<body>
+    <div id="content" class="container mt-5 pt-5">
+        <h1 class="mb-3 text-center">Вход</h1>
+        <div class="alert alert-success alert-dismissable fade show mb-3" th:if="${hasRegistrationSuccess}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Регистрация прошла успешно</strong>
+            <p>
+                Подтвердите свой адрес электронной почты, чтобы иметь возможность входить на сайт,
+                пройдя по ссылке из письма, которое было отправлено на указанный Вами адрес.
+            </p>
+        </div>
+        <div class="alert alert-success alert-dismissable fade show mb-3" th:if="${hasActivationSuccess}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Адрес электронной почты подтвежден</strong>
+            <p>Ваш адрес электронной почты был успешно подтвержден. Теперь Вы можете войти на сайт.</p>
+        </div>
+        <form th:action="@{/login}" method="post" class="w-50 m-auto mb-5 pb-5" th:object="${user}">
+            <div class="form-group">
+                <label for="user-username">Имя пользователя</label>
+                <input id="user-username" type="text" th:field="*{username}" th:class="${hasLoginError ? 'form-control is-invalid' : 'form-control'}"/>
+                <div class="invalid-feedback">Неверный логин...</div>
+            </div>
+            <div class="form-group">
+                <label for="user-password">Пароль</label>
+                <input id="user-password" type="password" th:field="*{password}" th:class="${hasLoginError ? 'form-control is-invalid' : 'form-control'}"/>
+                <div class="invalid-feedback">...или пароль</div>
+            </div>
+            <button type="submit" class="btn btn-success">Войти</button>
+            <a th:href="@{/registration}" class="btn btn-secondary ml-3">Зарегистрироваться</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -33,12 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         String usersQuery = "SELECT username, password, active FROM users WHERE username = ?";
-        String authoritiesQuery =
-                "SELECT u.username, ur.role "
-                        + "FROM users u "
-                        + "INNER JOIN user_roles ur ON ur.user_id = u.id "
-                        + "WHERE u.username = ?";
-
+        String authoritiesQuery = "SELECT u.username, ur.role "
+                + "FROM users u "
+                + "INNER JOIN user_roles ur ON ur.user_id = u.id "
+                + "WHERE u.username = ?";
 
         auth.jdbcAuthentication()
                 .dataSource(dataSource)

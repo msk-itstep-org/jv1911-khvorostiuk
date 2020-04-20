@@ -3,6 +3,7 @@ package org.itstep.msk.app.entity;
 import org.itstep.msk.app.enums.Role;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,15 +17,24 @@ public class User {
     private Long id;
 
     @Column(unique = true)
+    @NotEmpty(message = "Имя пользователя не может быть пустым")
     private String username;
 
     @Column
+    @NotEmpty(message = "Пароль не может быть пустым")
     private String password;
+
+    @ElementCollection(targetClass = Role.class)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
 
     @Column
     private boolean active;
 
     @Column
+    @NotEmpty(message = "Адрес электронной почты не может быть пустым")
     private String email;
 
     @Column(name = "activation_code")
@@ -35,24 +45,22 @@ public class User {
     private Avatar avatar;
 
     @ManyToMany
-    @JoinTable(name = "user_records", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "audio_id")
-    )
-    private Set<AudioRecord> audioRecords = new HashSet<>();
-
-    @ElementCollection(targetClass = Role.class)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<User> friends = new HashSet<>();
 
     @ManyToMany(mappedBy = "friends")
     private Set<User> followers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_records",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "audio_id")
+    )
+    private Set<AudioRecord> audioRecords = new HashSet<>();
 
     @Override
     public int hashCode() {
@@ -88,16 +96,27 @@ public class User {
         this.password = password;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public Set<String> getStringRoles() {
+        return roles.stream().map(Enum::toString).collect(Collectors.toSet());
+    }
+
+    public void setStringRoles(Set<String> stringRoles) {
+        roles.clear();
+        for (String stringRole : stringRoles) {
+            roles.add(Role.valueOf(stringRole));
+        }
+    }
+
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
     }
 
     public String getEmail() {
@@ -116,18 +135,6 @@ public class User {
         this.activationCode = activationCode;
     }
 
-    public Set<String> getStringRoles() {
-        return roles.stream().map(Enum::toString).collect(Collectors.toSet());
-    }
-
-    public Set<AudioRecord> getAudioRecords() {
-        return audioRecords;
-    }
-
-    public void setAudioRecords(Set<AudioRecord> audioRecord) {
-        this.audioRecords = audioRecord;
-    }
-
     public Avatar getAvatar() {
         return avatar;
     }
@@ -136,18 +143,15 @@ public class User {
         this.avatar = avatar;
     }
 
-    public void setStringRoles(Set<String> stringRoles) {
-        roles.clear();
-        for (String stringRole : stringRoles) {
-            roles.add(Role.valueOf(stringRole));
-        }
-    }
-
     public Set<User> getFriends() {
         return friends;
     }
 
     public Set<User> getFollowers() {
         return followers;
+    }
+
+    public Set<AudioRecord> getAudioRecords() {
+        return audioRecords;
     }
 }

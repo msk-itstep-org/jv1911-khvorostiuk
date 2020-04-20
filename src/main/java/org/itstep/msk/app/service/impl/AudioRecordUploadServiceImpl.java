@@ -1,7 +1,7 @@
 package org.itstep.msk.app.service.impl;
 
 import org.itstep.msk.app.entity.AudioRecord;
-import org.itstep.msk.app.exceptions.UnsupportedContentTypeException;
+import org.itstep.msk.app.exceptions.UnsupportedMediaTypeException;
 import org.itstep.msk.app.repository.AudioRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Set;
 
 @Service
 public class AudioRecordUploadServiceImpl extends AbstractUploadService<AudioRecord> {
@@ -29,7 +28,7 @@ public class AudioRecordUploadServiceImpl extends AbstractUploadService<AudioRec
             String filename = generateUniqueFileName(originalFileName);
 
             if (!Arrays.asList(CONTENT_TYPES).contains(file.getContentType())) {
-                throw new UnsupportedContentTypeException();
+                throw new UnsupportedMediaTypeException();
             }
 
             file.transferTo(getUploadsPath().resolve(filename).toFile());

@@ -1,7 +1,7 @@
 package org.itstep.msk.app.controller;
 
 import org.itstep.msk.app.entity.AudioRecord;
-import org.itstep.msk.app.exceptions.HttpNotFoundException;
+import org.itstep.msk.app.exceptions.NotFoundException;
 import org.itstep.msk.app.entity.Avatar;
 import org.itstep.msk.app.service.impl.AudioRecordUploadServiceImpl;
 import org.itstep.msk.app.service.impl.AvatarServiceUploadImpl;
@@ -32,7 +32,7 @@ public class UploadController {
         Resource file = new UrlResource(avatarService.getAbsolutePath(avatar).toUri());
 
         if (!file.exists() || !file.isReadable()) {
-            throw new HttpNotFoundException();
+            throw new NotFoundException();
         }
 
         return ResponseEntity.ok().body(file);
@@ -44,7 +44,7 @@ public class UploadController {
         Resource file = new UrlResource(audioRecordService.getAbsolutePath(audioRecord).toUri());
 
         if (!file.exists() || !file.isReadable()) {
-            throw new HttpNotFoundException();
+            throw new NotFoundException();
         }
 
         return ResponseEntity.ok().body(file);
