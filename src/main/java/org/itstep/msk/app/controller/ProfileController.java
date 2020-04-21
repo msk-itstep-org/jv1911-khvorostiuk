@@ -5,10 +5,12 @@ import org.itstep.msk.app.entity.Avatar;
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.exceptions.ForbiddenException;
 import org.itstep.msk.app.exceptions.UnsupportedMediaTypeException;
+import org.itstep.msk.app.repository.AudioRecordRepository;
 import org.itstep.msk.app.repository.UserRepository;
 import org.itstep.msk.app.service.FriendService;
 import org.itstep.msk.app.service.impl.AudioRecordSearchServiceImpl;
 import org.itstep.msk.app.service.impl.AudioRecordUploadServiceImpl;
+import org.itstep.msk.app.service.impl.AudioServiceImpl;
 import org.itstep.msk.app.service.impl.AvatarServiceUploadImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,10 +25,16 @@ import java.util.Map;
 @Controller
 public class ProfileController {
     @Autowired
+    private AudioServiceImpl audioService;
+
+    @Autowired
     private AvatarServiceUploadImpl avatarService;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AudioRecordRepository audioRecordRepository;
 
     @Autowired
     private AudioRecordUploadServiceImpl audioRecordService;
@@ -44,7 +52,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String userPage(@RequestParam(defaultValue = "false", value = "uploaderror") String error,
-                           @RequestParam(defaultValue = "false", value = "uploaderror") String wrongExtension,
+                           @RequestParam(defaultValue = "false", value = "wrongExtension") String wrongExtension,
                            Authentication authentication, Model model) {
         User user = userRepository.findByUsername(authentication.getName());
 
@@ -92,19 +100,26 @@ public class ProfileController {
 
     @PostMapping("/audio")
     public String audio(Authentication authentication,
-                        @RequestParam("audio_file") MultipartFile file) throws Exception {
+                        @RequestParam("audio_file") MultipartFile file,
+                        @RequestParam("audio_author") String author,
+                        @RequestParam("audio_name") String name) throws Exception {
         User user = userRepository.findByUsername(authentication.getName());
         AudioRecord audioRecord;
 
         try {
             audioRecord = audioRecordService.upload(file);
             user.getAudioRecords().add(audioRecord);
+            audioRecord.setAuthor(author);
+            audioRecord.setName(name);
+
+            audioRecordRepository.save(audioRecord);
+            audioRecordRepository.flush();
 
             userRepository.save(user);
             userRepository.flush();
 
         } catch (UnsupportedMediaTypeException e) {
-            return "redirect:/profile?uploaderror=true";
+            return "redirect:/profile?wrongExtension=true";
         }
 
         return "redirect:/profile";
@@ -126,9 +141,26 @@ public class ProfileController {
         return "audioList";
     }
 
+    @GetMapping("/audioAdd/{id}")
+    public String audioAdd(Authentication authentication,
+                           @PathVariable(name = "id") AudioRecord audioRecord) {
+        User user = userRepository.findByUsername(authentication.getName());
+
+        audioService.add(user, audioRecord);
+
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("status", audioService.getAudioStatus(user, audioRecord));
+//        result.put("id", "js-add-audio");
+//        result.put("href", "/audioAdd/");
+//        result.put("action", user.getAudioRecords().contains(audioRecord) ? "Добавить" : "Добавлено");
+
+        return "redirect:/audioList";
+    }
+
 
     @GetMapping("/deleteAudio/{id}")
-    public String audioDel(Authentication authentication, @PathVariable("id") AudioRecord audioRecord) throws Exception {
+    public String audioDel(Authentication authentication, @PathVariable("id") AudioRecord audioRecord) throws
+            Exception {
         User user = userRepository.findByUsername(authentication.getName());
 
         if (!user.getAudioRecords().contains(audioRecord)) {

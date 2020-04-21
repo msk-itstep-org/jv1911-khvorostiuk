@@ -17,13 +17,12 @@
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <form th:action="@{/deleteAudio/{id}(id=${record.id})}" method="post" enctype="multipart/form-data">
-            <button type="submit" class="btn btn-success">Remove</button>
-        </form>
+        <a th:href="@{/audioAdd/{id}(id=${record.id})}">Add</a>
     </li>
 </ul>
 </div>
 <audio id="sound" preload="auto" controls></audio>
+<!--<script th:src="@{/js/audio_add.js}"></script>-->
 <script th:src="@{/js/jquery.js}"></script>
 <script th:src="@{/js/sound.js}"></script>
 </body>

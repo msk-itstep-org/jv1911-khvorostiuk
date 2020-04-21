@@ -23,21 +23,21 @@
 
 </br>
 
-<div th:if="${!currentUser.equals(user)}"><!-- Не текущий юзер -->
+<div th:if="${!currentUser.equals(user)}">
     <p id="js-friend-status" th:text="${friendStatus}"></p>
-    <div th:if="${!currentUser.friends.contains(user)}"><!-- Я не подписан на юзера -->
-        <div th:if="${!user.friends.contains(currentUser)}"><!-- Юзер не подписан на меня -->
+    <div th:if="${!currentUser.friends.contains(user)}">
+        <div th:if="${!user.friends.contains(currentUser)}">
             <a id="js-add-friend" th:href="@{/addFriend/{id}(id=${user.id})}">Добавить друга</a>
         </div>
-        <div th:if="${user.friends.contains(currentUser)}"><!-- Юзер подписан на меня -->
+        <div th:if="${user.friends.contains(currentUser)}">
             <a id="js-add-friend" th:href="@{/addFriend/{id}(id=${user.id})}">Добавить друга</a>
         </div>
     </div>
-    <div th:if="${currentUser.friends.contains(user)}"><!-- Я подписан на юзера -->
-        <div th:if="${!user.friends.contains(currentUser)}"><!-- Юзер не подписан на меня -->
+    <div th:if="${currentUser.friends.contains(user)}">
+        <div th:if="${!user.friends.contains(currentUser)}">
             <a id="js-delete-friend" th:href="@{/deleteFriend/{id}(id=${user.id})}">Отписаться</a>
         </div>
-        <div th:if="${user.friends.contains(currentUser)}"><!-- Юзер подписан на меня -->
+        <div th:if="${user.friends.contains(currentUser)}">
             <a id="js-delete-friend" th:href="@{/deleteFriend/{id}(id=${user.id})}">Убрать из друзей</a>
         </div>
     </div>
