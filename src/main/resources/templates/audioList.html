@@ -13,17 +13,16 @@
     </div>
 </form>
 <ul>
-    <p id="js-audio-status" th:text="${audioStatus}"></p>
     <li th:each="record : ${records}">
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <a th:href="@{/audioAdd}">Add</a>
+        <a th:href="@{/audioAdd/{id}(id=${record.id})}">Add</a>
     </li>
 </ul>
 </div>
 <audio id="sound" preload="auto" controls></audio>
-<script th:src="@{/js/audio_add.js}"></script>
+<!--<script th:src="@{/js/audio_add.js}"></script>-->
 <script th:src="@{/js/jquery.js}"></script>
 <script th:src="@{/js/sound.js}"></script>
 </body>

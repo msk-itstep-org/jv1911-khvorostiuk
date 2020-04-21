@@ -52,7 +52,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String userPage(@RequestParam(defaultValue = "false", value = "uploaderror") String error,
-                           @RequestParam(defaultValue = "false", value = "uploaderror") String wrongExtension,
+                           @RequestParam(defaultValue = "false", value = "wrongExtension") String wrongExtension,
                            Authentication authentication, Model model) {
         User user = userRepository.findByUsername(authentication.getName());
 
@@ -141,20 +141,20 @@ public class ProfileController {
         return "audioList";
     }
 
-    @GetMapping("/audioAdd")
-    @ResponseBody
-    public Map<String, Object> audioAdd(Authentication authentication, AudioRecord audioRecord) {
+    @GetMapping("/audioAdd/{id}")
+    public String audioAdd(Authentication authentication,
+                           @PathVariable(name = "id") AudioRecord audioRecord) {
         User user = userRepository.findByUsername(authentication.getName());
 
         audioService.add(user, audioRecord);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("status", audioService.getAudioStatus(user, audioRecord));
-        result.put("id", "js-add-audio");
-        result.put("href", "/audioAdd/");
-        result.put("action", user.getAudioRecords().contains(audioRecord) ? "Добавить" : "Добавлено");
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("status", audioService.getAudioStatus(user, audioRecord));
+//        result.put("id", "js-add-audio");
+//        result.put("href", "/audioAdd/");
+//        result.put("action", user.getAudioRecords().contains(audioRecord) ? "Добавить" : "Добавлено");
 
-        return result;
+        return "redirect:/audioList";
     }
 
 
