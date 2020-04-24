@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 @Service
 public class AudioRecordUploadServiceImpl extends AbstractUploadService<AudioRecord> {
-        final private String[] CONTENT_TYPES = {"audio/mp3", "audio/mp4"};
+        final private String[] CONTENT_TYPES = {"audio/mp3", "audio/mp4", "audio/mpeg"};
         private AudioRecordRepository audioRecordRepository;
 
         public AudioRecordUploadServiceImpl(@Autowired AudioRecordRepository audioRecordRepository,

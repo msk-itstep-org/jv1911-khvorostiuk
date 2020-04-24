@@ -1,17 +1,16 @@
 package org.itstep.msk.app.controller;
 
 import org.itstep.msk.app.entity.AudioRecord;
-import org.itstep.msk.app.entity.Avatar;
+import org.itstep.msk.app.entity.Image;
+import org.itstep.msk.app.entity.Post;
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.exceptions.ForbiddenException;
 import org.itstep.msk.app.exceptions.UnsupportedMediaTypeException;
 import org.itstep.msk.app.repository.AudioRecordRepository;
+import org.itstep.msk.app.repository.PostRepository;
 import org.itstep.msk.app.repository.UserRepository;
 import org.itstep.msk.app.service.FriendService;
-import org.itstep.msk.app.service.impl.AudioRecordSearchServiceImpl;
-import org.itstep.msk.app.service.impl.AudioRecordUploadServiceImpl;
-import org.itstep.msk.app.service.impl.AudioServiceImpl;
-import org.itstep.msk.app.service.impl.AvatarServiceUploadImpl;
+import org.itstep.msk.app.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -45,6 +44,12 @@ public class ProfileController {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private PostServiceImpl postService;
+
     @GetMapping("/")
     public String index() {
         return "index";
@@ -53,12 +58,13 @@ public class ProfileController {
     @GetMapping("/profile")
     public String userPage(@RequestParam(defaultValue = "false", value = "uploaderror") String error,
                            @RequestParam(defaultValue = "false", value = "wrongExtension") String wrongExtension,
-                           Authentication authentication, Model model) {
+                           Authentication authentication, Model model, Post post) {
         User user = userRepository.findByUsername(authentication.getName());
 
         model.addAttribute("user", user);
         model.addAttribute("error", error.equalsIgnoreCase("true"));
         model.addAttribute("wrongExtension", wrongExtension.equalsIgnoreCase("true"));
+        model.addAttribute("post", post);
 
         return "profile";
     }
@@ -77,8 +83,8 @@ public class ProfileController {
     public String avatar(Authentication authentication,
                          @RequestParam("file") MultipartFile file) throws Exception {
         User user = userRepository.findByUsername(authentication.getName());
-        Avatar avatar;
-        Avatar oldAvatar = user.getAvatar();
+        Image avatar;
+        Image oldAvatar = user.getAvatar();
 
         try {
             avatar = avatarService.upload(file);
@@ -205,5 +211,74 @@ public class ProfileController {
         result.put("action", "Добавить друга");
 
         return result;
+    }
+
+    @GetMapping("/addPost")
+    public String addPost(Authentication authentication, Post post) {
+        User user = userRepository.findByUsername(authentication.getName());
+
+        postService.addPost(user, post);
+
+        return "redirect:/editPost/" + post.getId();
+    }
+
+    @GetMapping("/editPost/{id}")
+    public String editPost(Authentication authentication,
+                           @PathVariable("id") Post post, Model model,
+                           @RequestParam(defaultValue = "false", value = "uploaderror") String error) {
+        User user = userRepository.findByUsername(authentication.getName());
+
+        if (!user.equals(post.getUser())) {
+            throw new ForbiddenException();
+        }
+
+        model.addAttribute("user", user);
+        model.addAttribute("post", post);
+        model.addAttribute("error", error.equalsIgnoreCase("true"));
+
+        return "editPost";
+    }
+
+    @PostMapping("/editPost/{id}")
+    private String savePost(Authentication authentication, @PathVariable("id") Post post,
+                            @ModelAttribute Post editedPost) {
+        User user = userRepository.findByUsername(authentication.getName());
+
+        if (!user.equals(post.getUser())) {
+            throw new ForbiddenException();
+        }
+
+        postService.editPost(post, editedPost);
+
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/addPostPicture/{id}")
+    private String addPicture(@PathVariable("id") Post post,
+                              @RequestParam("file") MultipartFile file) throws Exception {
+
+        try {
+            Image image = avatarService.upload(file);
+
+            post.getImages().add(image);
+
+            postRepository.save(post);
+            postRepository.flush();
+
+
+        } catch (UnsupportedMediaTypeException e) {
+            return "redirect:/editPost?uploadInPostError=true";
+        }
+
+        return "redirect:/editPost/" + post.getId();
+    }
+
+    @GetMapping("/editPost/{id}/{audioId}")
+    private String addAudio(@PathVariable("id") Post post,
+                            @PathVariable("audioId") AudioRecord audioRecord) {
+
+        audioService.addToPost(post, audioRecord);
+
+        return "redirect:/editPost/" + post.getId();
     }
 }

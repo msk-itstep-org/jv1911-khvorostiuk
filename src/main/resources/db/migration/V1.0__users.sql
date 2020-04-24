@@ -5,7 +5,6 @@ CREATE TABLE users
     password        varchar(255) not null,
     active          boolean      not null,
     email           varchar(101) not null,
-    photo_id        bigint unsigned null references photos(id),
     avatar_id       int unsigned null references uploads (id),
     activation_code varchar(255) null
 );
@@ -26,6 +25,6 @@ create table user_records
 
 create table user_friends
 (
-    user_id  bigint not null references users (id),
+    user_id   bigint not null references users (id),
     friend_id bigint not null references users (id)
 )

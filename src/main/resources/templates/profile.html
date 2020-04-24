@@ -43,6 +43,25 @@
     </li>
 </ul>
 <audio id="sound" preload="auto" controls></audio>
+<a th:href="@{/addPost}" class="btn btn-success">Создать пост</a>
+
+<div>
+    <span th:each="post : ${user.posts}">
+        <a th:text="${post.postMessage}"></a>
+        <br>
+        <img th:each="image : ${post.images}" th:src="@{/uploads/image/{id}(id=${image.id})}"
+             class="img-thumbnail" style="height:200px"/>
+        <br>
+        <a th:each="record : ${post.audioRecords}">
+            <span th:text="${record.originalFilename}"></span>
+            <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
+            <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
+            <br>
+        </a>
+        <br>
+    </span>
+</div>
+
 <script th:src="@{/js/jquery.js}"></script>
 <script th:src="@{/js/sound.js}"></script>
 </body>
