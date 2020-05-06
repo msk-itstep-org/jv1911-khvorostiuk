@@ -3,8 +3,9 @@ package org.itstep.msk.app.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "community_members")
-public class CommunityMember {
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "likes")
+public class Like {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +14,6 @@ public class CommunityMember {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @ManyToOne(targetEntity = Community.class)
-    @JoinColumn(name = "community_id", referencedColumnName = "id")
-    private  Community community;
 
     public Long getId() {
         return id;
@@ -29,13 +26,4 @@ public class CommunityMember {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public Community getCommunity() {
-        return community;
-    }
-
-    public void setCommunity(Community community) {
-        this.community = community;
-    }
-
 }

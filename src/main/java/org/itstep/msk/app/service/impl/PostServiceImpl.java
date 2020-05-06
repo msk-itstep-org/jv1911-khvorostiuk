@@ -1,5 +1,6 @@
 package org.itstep.msk.app.service.impl;
 
+import org.itstep.msk.app.entity.Community;
 import org.itstep.msk.app.entity.Post;
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.exceptions.ForbiddenException;
@@ -26,6 +27,15 @@ public class PostServiceImpl implements PostService {
     public void addPost(User user, Post post) {
         post.setUser(user);
         user.getPosts().add(post);
+
+        postRepository.save(post);
+        postRepository.flush();
+    }
+
+    @Override
+    public void addCommunityPost(Community community, Post post) {
+        post.setCommunity(community);
+        community.getPosts().add(post);
 
         postRepository.save(post);
         postRepository.flush();

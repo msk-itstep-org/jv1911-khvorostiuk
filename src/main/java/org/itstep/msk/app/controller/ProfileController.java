@@ -240,7 +240,8 @@ public class ProfileController {
     }
 
     @PostMapping("/editPost/{id}")
-    private String savePost(Authentication authentication, @PathVariable("id") Post post,
+    private String savePost(Authentication authentication,
+                            @PathVariable("id") Post post,
                             @ModelAttribute Post editedPost) {
         User user = userRepository.findByUsername(authentication.getName());
 

@@ -14,9 +14,6 @@
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <form th:action="@{/deleteAudio/{id}(id=${record.id})}" method="post" enctype="multipart/form-data">
-            <button type="submit" class="btn btn-success">Remove</button>
-        </form>
     </li>
 </ul>
 <audio id="sound" preload="auto" controls></audio>
@@ -43,8 +40,34 @@
     </div>
 </div>
 
+<div>
+    <span th:each="post : ${user.posts}">
+        <a th:text="${post.postMessage}"></a>
+        <br>
+        <img th:each="image : ${post.images}" th:src="@{/uploads/image/{id}(id=${image.id})}"
+             class="img-thumbnail" style="height:200px"/>
+        <br>
+        <a th:each="record : ${post.audioRecords}">
+            <span th:text="${record.originalFilename}"></span>
+            <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
+            <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
+            <br>
+        </a>
+        <td>
+            <a th:href="@{/like/postLike/} + ${post.id}" class="js-like" sec:authorize="isAuthenticated()">
+                <i class="far fa-heart"></i>
+            </a>
+        </td>
+        <br>
+    </span>
+</div>
+
 <script th:src="@{/js/jquery.js}"></script>
-<script th:src="@{/js/friend_request.js}"></script>
 <script th:src="@{/js/sound.js}"></script>
+<script th:src="@{/js/fontawesome.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/post_like.js}"></script>
+<script th:src="@{/js/friend_request.js}"></script>
 </body>
 </html>
