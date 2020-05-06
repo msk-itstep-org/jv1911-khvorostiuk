@@ -37,7 +37,7 @@ public class SecurityController {
             Model model
     ) {
         if (authentication != null) {
-            return "redirect:/";
+            return "redirect:/profile";
         }
 
         boolean hasRegistrationSuccess = false;
@@ -68,7 +68,7 @@ public class SecurityController {
     @SuppressWarnings("unchecked")
     public String registration(HttpServletRequest request, Authentication authentication, Model model) {
         if (authentication != null) {
-            return "redirect:/";
+            return "redirect:/profile";
         }
 
         Map<String, List<String>> errors = new HashMap<>();

@@ -4,5 +4,5 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "avatars")
-public class Avatar extends Upload {
+public class Image extends Upload {
 }

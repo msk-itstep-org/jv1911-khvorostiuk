@@ -40,9 +40,9 @@ public class User {
     @Column(name = "activation_code")
     private String activationCode;
 
-    @OneToOne(targetEntity = Avatar.class)
+    @OneToOne(targetEntity = Image.class)
     @JoinColumn(name = "avatar_id", referencedColumnName = "id")
-    private Avatar avatar;
+    private Image avatar;
 
     @ManyToMany
     @JoinTable(
@@ -61,6 +61,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "audio_id")
     )
     private Set<AudioRecord> audioRecords = new HashSet<>();
+
+    @OneToMany(targetEntity = Post.class, mappedBy = "user")
+    private Set<Post> posts = new HashSet<>();
 
     @Override
     public int hashCode() {
@@ -111,6 +114,10 @@ public class User {
         }
     }
 
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -135,11 +142,11 @@ public class User {
         this.activationCode = activationCode;
     }
 
-    public Avatar getAvatar() {
+    public Image getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(Image avatar) {
         this.avatar = avatar;
     }
 
@@ -154,4 +161,6 @@ public class User {
     public Set<AudioRecord> getAudioRecords() {
         return audioRecords;
     }
+
+
 }

@@ -1,6 +1,6 @@
 package org.itstep.msk.app.service.impl;
 
-import org.itstep.msk.app.entity.Avatar;
+import org.itstep.msk.app.entity.Image;
 import org.itstep.msk.app.exceptions.UnsupportedMediaTypeException;
 import org.itstep.msk.app.repository.AvatarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.Arrays;
 
 @Service
-public class AvatarServiceUploadImpl extends AbstractUploadService<Avatar> {
+public class AvatarServiceUploadImpl extends AbstractUploadService<Image> {
     final private String[] CONTENT_TYPES = {"image/png", "image/jpeg"};
     private AvatarRepository avatarRepository;
 
@@ -23,7 +23,7 @@ public class AvatarServiceUploadImpl extends AbstractUploadService<Avatar> {
     }
 
     @Override
-    public Avatar upload(MultipartFile file) throws Exception {
+    public Image upload(MultipartFile file) throws Exception {
         String originalFileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : "";
         String filename = generateUniqueFileName(originalFileName);
 
@@ -33,7 +33,7 @@ public class AvatarServiceUploadImpl extends AbstractUploadService<Avatar> {
 
         file.transferTo(getUploadsPath().resolve(filename).toFile());
 
-        Avatar avatar = new Avatar();
+        Image avatar = new Image();
         avatar.setFilename(filename);
         avatar.setOriginalFilename(originalFileName);
         avatar.setContentType(file.getContentType());
@@ -45,7 +45,7 @@ public class AvatarServiceUploadImpl extends AbstractUploadService<Avatar> {
     }
 
     @Override
-    public void remove(Avatar avatar) throws Exception {
+    public void remove(Image avatar) throws Exception {
         File file = getUploadsPath().resolve(avatar.getFilename()).toFile();
         file.delete();
 
