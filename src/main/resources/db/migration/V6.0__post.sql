@@ -1,8 +1,9 @@
 CREATE TABLE posts
 (
-    id          bigint unsigned not null auto_increment primary key,
+    id           bigint unsigned not null auto_increment primary key,
     post_message varchar(255) null,
-    user_id     bigint       null references user (id)
+    user_id      bigint       null references users (id),
+    community_id bigint       null references communities (id)
 
 );
 

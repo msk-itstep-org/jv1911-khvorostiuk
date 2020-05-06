@@ -5,6 +5,7 @@ import org.itstep.msk.app.enums.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -64,6 +65,9 @@ public class User {
 
     @OneToMany(targetEntity = Post.class, mappedBy = "user")
     private Set<Post> posts = new HashSet<>();
+
+    @Column
+    private boolean communityMember;
 
     @Override
     public int hashCode() {
@@ -162,5 +166,11 @@ public class User {
         return audioRecords;
     }
 
+    public boolean isCommunityMember() {
+        return communityMember;
+    }
 
+    public void setCommunityMember(boolean communityMember) {
+        this.communityMember = communityMember;
+    }
 }

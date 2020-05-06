@@ -32,6 +32,10 @@ public class Post {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ManyToOne(targetEntity = Community.class)
+    @JoinColumn(name = "community_id", referencedColumnName = "id")
+    private Community community;
+
     public Long getId() {
         return id;
     }
@@ -60,4 +64,11 @@ public class Post {
         return audioRecords;
     }
 
+    public Community getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(Community community) {
+        this.community = community;
+    }
 }
