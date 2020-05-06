@@ -1,4 +1,4 @@
-package org.itstep.msk.app.controller;
+package org.itstep.msk.app.controller.admin;
 
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.enums.Role;

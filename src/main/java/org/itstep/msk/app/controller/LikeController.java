@@ -18,11 +18,15 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/like")
 public class LikeController {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final PostLikeRepository postLikeRepository;
 
     @Autowired
-    private PostLikeRepository postLikeRepository;
+    public LikeController(UserRepository userRepository, PostLikeRepository postLikeRepository) {
+        this.userRepository = userRepository;
+        this.postLikeRepository = postLikeRepository;
+    }
 
     @PostMapping("/postLike/{id}")
     public Boolean postLike(
