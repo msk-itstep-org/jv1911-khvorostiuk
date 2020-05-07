@@ -22,24 +22,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class AudioController {
-    private final UserRepository userRepository;
-
-    private final AudioRecordRepository audioRecordRepository;
-
-    private final AudioRecordUploadServiceImpl audioRecordService;
-
-    private final AudioRecordSearchServiceImpl audioRecordSearchService;
-
-    private final AudioServiceImpl audioService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public AudioController(UserRepository userRepository, AudioRecordRepository audioRecordRepository, AudioRecordUploadServiceImpl audioRecordService, AudioRecordSearchServiceImpl audioRecordSearchService, AudioServiceImpl audioService) {
-        this.userRepository = userRepository;
-        this.audioRecordRepository = audioRecordRepository;
-        this.audioRecordService = audioRecordService;
-        this.audioRecordSearchService = audioRecordSearchService;
-        this.audioService = audioService;
-    }
+    private AudioRecordRepository audioRecordRepository;
+
+    @Autowired
+    private AudioRecordUploadServiceImpl audioRecordService;
+
+    @Autowired
+    private AudioRecordSearchServiceImpl audioRecordSearchService;
+
+    @Autowired
+    private AudioServiceImpl audioService;
 
     @PostMapping("/audio")
     public String audio(Authentication authentication,
@@ -68,7 +64,7 @@ public class AudioController {
         return "redirect:/profile";
     }
 
-    @GetMapping("/audioList")
+    @GetMapping("/audio_list")
     public String audioList(Authentication authentication, Model model,
                             @RequestParam(required = false, defaultValue = "") String name) throws Exception {
         User user = userRepository.findByUsername(authentication.getName());
@@ -81,10 +77,10 @@ public class AudioController {
 
         model.addAttribute("user", user);
 
-        return "audioList";
+        return "audio_list";
     }
 
-    @GetMapping("/audioAdd/{id}")
+    @GetMapping("/audio_add/{id}")
     public String audioAdd(Authentication authentication,
                            @PathVariable(name = "id") AudioRecord audioRecord) {
         User user = userRepository.findByUsername(authentication.getName());
@@ -95,7 +91,7 @@ public class AudioController {
     }
 
 
-    @GetMapping("/deleteAudio/{id}")
+    @GetMapping("/delete_audio/{id}")
     public String audioDel(Authentication authentication, @PathVariable("id") AudioRecord audioRecord) throws
             Exception {
         User user = userRepository.findByUsername(authentication.getName());
@@ -112,7 +108,7 @@ public class AudioController {
         return "redirect:/profile";
     }
 
-    @GetMapping("/editPost/{id}/{audioId}")
+    @GetMapping("/edit_post/{id}/add-audio/{audioId}")
     private String addAudio(@PathVariable("id") Post post,
                             @PathVariable("audioId") AudioRecord audioRecord) {
 

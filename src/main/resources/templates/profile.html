@@ -12,7 +12,7 @@
 <img th:if="${user.avatar != null}" th:src="@{/uploads/avatar/{id}(id=${user.avatar.id})}" class="img-thumbnail"
      style="height:200px"/>
 
-<form th:action="@{/profileAvatar}" method="post" enctype="multipart/form-data"
+<form th:action="@{/profile_avatar}" method="post" enctype="multipart/form-data"
       class="mt-3 mb-5 pb-5 row-col-xs-3">
     <div class="form-group">
         <span th:if="${error}" class="alert alert-primary" role="alert">Неверный формат файла!</span>
@@ -40,11 +40,11 @@
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <a th:href="@{/deleteAudio/{id}(id=${record.id})}" class="btn-success">Remove</a>
+        <a th:href="@{/delete_audio/{id}(id=${record.id})}" class="btn-success">Remove</a>
     </li>
 </ul>
 <audio id="sound" preload="auto" controls></audio>
-<a th:href="@{/addPost}" class="btn btn-success">Создать пост</a>
+<a th:href="@{/add_post}" class="btn btn-success">Создать пост</a>
 
 <div>
     <span th:each="post : ${user.posts}">
@@ -60,7 +60,7 @@
             <br>
         </a>
         <td>
-            <a th:href="@{/like/postLike/} + ${post.id}" class="js-like" sec:authorize="isAuthenticated()">
+            <a th:href="@{/like/post_like/} + ${post.id}" class="js-like" sec:authorize="isAuthenticated()">
                 <i class="far fa-heart"></i>
             </a>
         </td>

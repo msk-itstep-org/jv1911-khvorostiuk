@@ -17,20 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ImageController {
-    private final AvatarServiceUploadImpl avatarService;
-
-    private final UserRepository userRepository;
-
-    private final PostRepository postRepository;
+    @Autowired
+    private AvatarServiceUploadImpl avatarService;
 
     @Autowired
-    public ImageController(AvatarServiceUploadImpl avatarService, UserRepository userRepository, PostRepository postRepository) {
-        this.avatarService = avatarService;
-        this.userRepository = userRepository;
-        this.postRepository = postRepository;
-    }
+    private UserRepository userRepository;
 
-    @PostMapping("/profileAvatar")
+    @Autowired
+    private PostRepository postRepository;
+
+    @PostMapping("/profile_avatar")
     public String avatar(Authentication authentication,
                          @RequestParam("file") MultipartFile file) throws Exception {
         User user = userRepository.findByUsername(authentication.getName());
@@ -55,7 +51,7 @@ public class ImageController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/addPostPicture/{id}")
+    @PostMapping("/add_post_picture/{id}")
     private String addPicture(@PathVariable("id") Post post,
                               @RequestParam("file") MultipartFile file) throws Exception {
 
@@ -69,9 +65,9 @@ public class ImageController {
 
 
         } catch (UnsupportedMediaTypeException e) {
-            return "redirect:/editPost?uploadInPostError=true";
+            return "redirect:/edit_post?uploadInPostError=true";
         }
 
-        return "redirect:/editPost/" + post.getId();
+        return "redirect:/edit_post/" + post.getId();
     }
 }

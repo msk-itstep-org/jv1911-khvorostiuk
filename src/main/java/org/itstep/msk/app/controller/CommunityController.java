@@ -21,27 +21,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class CommunityController {
-    private final CommunityRepository communityRepository;
-
-    private final CommunityService communityService;
-
-    private final UserRepository userRepository;
-
-    private final PostServiceImpl postService;
-
-    private final AvatarServiceUploadImpl avatarService;
-
+    @Autowired
+    private CommunityRepository communityRepository;
 
     @Autowired
-    public CommunityController(CommunityRepository communityRepository, CommunityService communityService, UserRepository userRepository, PostServiceImpl postService, AvatarServiceUploadImpl avatarService) {
-        this.communityRepository = communityRepository;
-        this.communityService = communityService;
-        this.userRepository = userRepository;
-        this.postService = postService;
-        this.avatarService = avatarService;
-    }
+    private CommunityService communityService;
 
-    @GetMapping("/addCommunity")
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PostServiceImpl postService;
+
+    @Autowired
+    private AvatarServiceUploadImpl avatarService;
+
+    @GetMapping("/add_community")
     private String addCommunity(Authentication authentication, Community community) {
         User user = userRepository.findByUsername(authentication.getName());
 
@@ -65,10 +60,10 @@ public class CommunityController {
         model.addAttribute("community", community);
         model.addAttribute("error", error);
 
-        return "editCommunity";
+        return "edit_community";
     }
 
-    @PostMapping("/saveCommunity/{id}")
+    @PostMapping("/save_community/{id}")
     private String saveCommunity(Authentication authentication,
                                  @PathVariable("id") Community community,
                                  @ModelAttribute Community editedCommunity) {
@@ -83,7 +78,7 @@ public class CommunityController {
         return "redirect:/community";
     }
 
-    @PostMapping("/addCommunityPicture/{id}")
+    @PostMapping("/add_community_picture/{id}")
     private String addPicture(@PathVariable("id") Community community,
                               @RequestParam("file") MultipartFile file) throws Exception {
 
@@ -97,13 +92,13 @@ public class CommunityController {
 
 
         } catch (UnsupportedMediaTypeException e) {
-            return "redirect:/editPost?uploadInPostError=true";
+            return "redirect:/community?uploadInPostError=true";
         }
 
-        return "redirect:/editCommunity/" + community.getId();
+        return "redirect:/edit_community/" + community.getId();
     }
 
-    @PostMapping("/addCommunityPost/{communityId}/{postId}")
+    @PostMapping("/add_community_post/{communityId}/add_post/{postId}")
     private String addCommunityPost(@PathVariable("communityId") Community community,
                                     @PathVariable("postId") Post post,
                                     Authentication authentication) {

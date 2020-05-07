@@ -15,17 +15,13 @@ import java.util.Map;
 
 @Controller
 public class FriendController {
-    private final FriendService friendService;
-
-    private final UserRepository userRepository;
+    @Autowired
+    private FriendService friendService;
 
     @Autowired
-    public FriendController(FriendService friendService, UserRepository userRepository) {
-        this.friendService = friendService;
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
-    @GetMapping("/addFriend/{id}")
+    @GetMapping("/add_friend/{id}")
     @ResponseBody
     public Map<String, Object> addFriend(@PathVariable("id") User userToAdd, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());
@@ -41,7 +37,7 @@ public class FriendController {
         return result;
     }
 
-    @GetMapping("/deleteFriend/{id}")
+    @GetMapping("/delete_friend/{id}")
     @ResponseBody
     public Map<String, Object> deleteFriend(@PathVariable("id") User userToDelete, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());

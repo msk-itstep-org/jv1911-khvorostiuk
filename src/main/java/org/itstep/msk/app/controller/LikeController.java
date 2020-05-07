@@ -18,17 +18,13 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/like")
 public class LikeController {
-    private final UserRepository userRepository;
-
-    private final PostLikeRepository postLikeRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public LikeController(UserRepository userRepository, PostLikeRepository postLikeRepository) {
-        this.userRepository = userRepository;
-        this.postLikeRepository = postLikeRepository;
-    }
+    private PostLikeRepository postLikeRepository;
 
-    @PostMapping("/postLike/{id}")
+    @PostMapping("/post_like/{id}")
     public Boolean postLike(
             @PathVariable(name = "id") Post post,
             Authentication authentication

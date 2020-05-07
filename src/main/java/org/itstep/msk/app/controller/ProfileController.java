@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProfileController {
-    private final UserRepository userRepository;
-
-    private final FriendService friendService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public ProfileController(UserRepository userRepository, FriendService friendService) {
-        this.userRepository = userRepository;
-        this.friendService = friendService;
-    }
+    private FriendService friendService;
 
     @GetMapping("/")
     public String index() {
@@ -50,7 +46,7 @@ public class ProfileController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("friendStatus", friendService.getFriendStatus(currentUser, user));
 
-        return "strangerProfile";
+        return "stranger_profile";
     }
 
 }

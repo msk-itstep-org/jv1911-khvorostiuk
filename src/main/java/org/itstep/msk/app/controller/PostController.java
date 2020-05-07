@@ -13,26 +13,22 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PostController {
-    private final PostServiceImpl postService;
-
-    private final UserRepository userRepository;
+    @Autowired
+    private PostServiceImpl postService;
 
     @Autowired
-    public PostController(PostServiceImpl postService, UserRepository userRepository) {
-        this.postService = postService;
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
-    @GetMapping("/addPost")
+    @GetMapping("/add_post")
     public String addPost(Authentication authentication, Post post) {
         User user = userRepository.findByUsername(authentication.getName());
 
         postService.addPost(user, post);
 
-        return "redirect:/editPost/" + post.getId();
+        return "redirect:/edit_post/" + post.getId();
     }
 
-    @GetMapping("/editPost/{id}")
+    @GetMapping("/edit_post/{id}")
     public String editPost(Authentication authentication,
                            @PathVariable("id") Post post, Model model,
                            @RequestParam(defaultValue = "false", value = "uploaderror") String error) {
@@ -46,10 +42,10 @@ public class PostController {
         model.addAttribute("post", post);
         model.addAttribute("error", error.equalsIgnoreCase("true"));
 
-        return "editPost";
+        return "edit_post";
     }
 
-    @PostMapping("/editPost/{id}")
+    @PostMapping("/edit_post/{id}")
     private String savePost(Authentication authentication,
                             @PathVariable("id") Post post,
                             @ModelAttribute Post editedPost) {
