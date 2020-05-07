@@ -1,4 +1,4 @@
-package org.itstep.msk.app.controller;
+package org.itstep.msk.app.controller.admin;
 
 import org.itstep.msk.app.entity.User;
 import org.itstep.msk.app.enums.Role;
@@ -31,7 +31,7 @@ public class UserController {
         model.addAttribute("pages", users.getTotalPages());
         model.addAttribute("pagesRange", IntStream.range(0, users.getTotalPages()).toArray());
 
-        return "userList";
+        return "user_list";
     }
 
     @GetMapping("/edit/{id}")
@@ -40,7 +40,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
 
-        return "userEdit";
+        return "user_edit";
     }
 
     @PostMapping("/save/{id}")

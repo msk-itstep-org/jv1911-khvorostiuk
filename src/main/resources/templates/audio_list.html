@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form action="/audioList" method="get" class="form-inline">
+<form action="/audio_list" method="get" class="form-inline">
     <div class="form-group mb-2">
         <input type="text" class="form-control" name="name" placeholder="Поиск музыки">
         <input type="submit" value="Search" class="btn-success">
@@ -17,7 +17,7 @@
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <a th:href="@{/audioAdd/{id}(id=${record.id})}">Add</a>
+        <a th:href="@{/audio-add/{id}(id=${record.id})}">Add</a>
     </li>
 </ul>
 </div>

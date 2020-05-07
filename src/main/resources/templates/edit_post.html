@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<form th:action="@{/editPost/{id}(id=${post.id})}" method="post" th:object="${post}">
+<form th:action="@{/edit_post/{id}(id=${post.id})}" method="post" th:object="${post}">
     <textarea th:field="*{postMessage}"></textarea>
     <button type="submit" class="btn-success">Сохранить</button>
 </form>
@@ -18,7 +18,7 @@
      style="height:200px"/>
 
 
-<form th:action="@{/addPostPicture/{id}(id=${post.id})}" method="post" enctype="multipart/form-data"
+<form th:action="@{/add_post_picture/{id}(id=${post.id})}" method="post" enctype="multipart/form-data"
       class="mt-3 mb-5 pb-5">
     <div class="form-group">
         <span th:if="${error}" style="color:red;text-width:bold">Неверный формат файла!</span>
@@ -33,9 +33,6 @@
         <span th:text="${record.originalFilename}"></span>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
-        <a th:if="${!post.audioRecords.contains(record)}"
-           th:href="@{/addPostMusic/{id}/{audioId}(id=${post.id}, audioId=${record.id})}" class="btn btn-success">Add To
-            Post</a>
     </li>
 </ul>
 
@@ -45,7 +42,7 @@
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="play">Play</a>
         <a th:href="@{/uploads/audio/{id}(id=${record.id})}" class="pause">Pause</a>
         <a th:if="${!post.audioRecords.contains(record)}"
-           th:href="@{/editPost/{id}/{audioId}(id=${post.id}, audioId=${record.id})}" class="btn btn-success">Add To
+           th:href="@{/edit_post/{id}/add-audio/{audioId}(id=${post.id}, audioId=${record.id})}" class="btn btn-success">Add To
             Post</a>
     </li>
 </ul>

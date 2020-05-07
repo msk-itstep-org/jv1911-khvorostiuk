@@ -24,7 +24,7 @@ public class LikeController {
     @Autowired
     private PostLikeRepository postLikeRepository;
 
-    @PostMapping("/postLike/{id}")
+    @PostMapping("/post_like/{id}")
     public Boolean postLike(
             @PathVariable(name = "id") Post post,
             Authentication authentication

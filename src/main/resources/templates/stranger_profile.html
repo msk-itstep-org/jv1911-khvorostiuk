@@ -24,18 +24,18 @@
     <p id="js-friend-status" th:text="${friendStatus}"></p>
     <div th:if="${!currentUser.friends.contains(user)}">
         <div th:if="${!user.friends.contains(currentUser)}">
-            <a id="js-add-friend" th:href="@{/addFriend/{id}(id=${user.id})}">Добавить друга</a>
+            <a id="js-add-friend" th:href="@{/add_friend/{id}(id=${user.id})}">Добавить друга</a>
         </div>
         <div th:if="${user.friends.contains(currentUser)}">
-            <a id="js-add-friend" th:href="@{/addFriend/{id}(id=${user.id})}">Добавить друга</a>
+            <a id="js-add-friend" th:href="@{/add_friend/{id}(id=${user.id})}">Добавить друга</a>
         </div>
     </div>
     <div th:if="${currentUser.friends.contains(user)}">
         <div th:if="${!user.friends.contains(currentUser)}">
-            <a id="js-delete-friend" th:href="@{/deleteFriend/{id}(id=${user.id})}">Отписаться</a>
+            <a id="js-delete-friend" th:href="@{/delete_friend/{id}(id=${user.id})}">Отписаться</a>
         </div>
         <div th:if="${user.friends.contains(currentUser)}">
-            <a id="js-delete-friend" th:href="@{/deleteFriend/{id}(id=${user.id})}">Убрать из друзей</a>
+            <a id="js-delete-friend" th:href="@{/delete_friend/{id}(id=${user.id})}">Убрать из друзей</a>
         </div>
     </div>
 </div>
